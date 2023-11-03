@@ -30,18 +30,16 @@ public class PlayerControl : MonoBehaviour
                 Debug.Log("ItJumps!");
                 GetComponent<Rigidbody>().velocity = new Vector2(GetComponent<Rigidbody>().velocity.y, jump);
             }
-            
-
         }
         //physicsBody.MovePosition(transform.position + moveDirection * Time.deltaTime * speed);
         moveVelocity = 0;
 
         //Left Right Movement
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        if ( Input.GetKey(KeyCode.A))
         {
             moveVelocity = -speed;
         }
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
             moveVelocity = speed;
         }

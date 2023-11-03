@@ -462,7 +462,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1410945765}
-  - component: {fileID: 1410945766}
   m_Layer: 0
   m_Name: Grounds
   m_TagString: Untagged
@@ -486,20 +485,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1410945766
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410945764}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1575879161
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +538,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 53.551605
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -579,7 +564,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575879161}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.726232, y: -2.045304, z: -10.290166}
+  m_LocalPosition: {x: 1.726232, y: -0.95, z: -10.290166}
   m_LocalScale: {x: 0.9697933, y: 0.75752, z: 0.9576709}
   m_ConstrainProportionsScale: 0
   m_Children: []
