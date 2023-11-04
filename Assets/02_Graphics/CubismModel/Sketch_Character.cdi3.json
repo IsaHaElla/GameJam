@@ -1,0 +1,177 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "ParamGroup",
+			"Name": "Angle Z"
+		},
+		{
+			"Id": "ParamEyeLOpen",
+			"GroupId": "ParamGroup2",
+			"Name": "EyeL Open"
+		},
+		{
+			"Id": "ParamEyeRSmile",
+			"GroupId": "ParamGroup2",
+			"Name": "EyeR Smile"
+		},
+		{
+			"Id": "ParamBodyAngleX",
+			"GroupId": "ParamGroup4",
+			"Name": "Arm R x"
+		},
+		{
+			"Id": "ParamBodyAngleY",
+			"GroupId": "ParamGroup4",
+			"Name": "Arm L x"
+		},
+		{
+			"Id": "ParamBodyAngleZ",
+			"GroupId": "ParamGroup4",
+			"Name": "Leg R x"
+		},
+		{
+			"Id": "Param7",
+			"GroupId": "ParamGroup4",
+			"Name": "Leg L x"
+		},
+		{
+			"Id": "Param8",
+			"GroupId": "ParamGroup4",
+			"Name": "Rock 1 1"
+		},
+		{
+			"Id": "Param9",
+			"GroupId": "ParamGroup4",
+			"Name": "Rock 1 2"
+		},
+		{
+			"Id": "Param10",
+			"GroupId": "ParamGroup6",
+			"Name": "Jump"
+		},
+		{
+			"Id": "ParamBrowLY",
+			"GroupId": "ParamGroup9",
+			"Name": "BrowL Y"
+		},
+		{
+			"Id": "ParamBrowRY",
+			"GroupId": "ParamGroup9",
+			"Name": "BrowR Y"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "ParamGroup10",
+			"Name": "Hair 1 1"
+		},
+		{
+			"Id": "Param2",
+			"GroupId": "ParamGroup10",
+			"Name": "Hair 1 2"
+		},
+		{
+			"Id": "Param3",
+			"GroupId": "ParamGroup10",
+			"Name": "Hair 2 1"
+		},
+		{
+			"Id": "Param4",
+			"GroupId": "ParamGroup10",
+			"Name": "Hair 2 2"
+		},
+		{
+			"Id": "Param5",
+			"GroupId": "ParamGroup10",
+			"Name": "Hair 3 1"
+		},
+		{
+			"Id": "Param6",
+			"GroupId": "ParamGroup10",
+			"Name": "Hair 3 2"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Face"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "Eye"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "Teddi"
+		},
+		{
+			"Id": "ParamGroup4",
+			"GroupId": "",
+			"Name": "Move"
+		},
+		{
+			"Id": "ParamGroup6",
+			"GroupId": "",
+			"Name": "Jump"
+		},
+		{
+			"Id": "ParamGroup8",
+			"GroupId": "",
+			"Name": "Die"
+		},
+		{
+			"Id": "ParamGroup9",
+			"GroupId": "",
+			"Name": "Brows"
+		},
+		{
+			"Id": "ParamGroup10",
+			"GroupId": "",
+			"Name": "Hair"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Teddi",
+			"Name": "Teddi"
+		},
+		{
+			"Id": "L",
+			"Name": "L"
+		},
+		{
+			"Id": "R",
+			"Name": "R"
+		},
+		{
+			"Id": "Part",
+			"Name": "Back Hair"
+		},
+		{
+			"Id": "Part2",
+			"Name": "New group"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"Param8",
+			"Param9"
+		],
+		[
+			"Param",
+			"Param2"
+		],
+		[
+			"Param3",
+			"Param4"
+		],
+		[
+			"Param5",
+			"Param6"
+		]
+	]
+}
