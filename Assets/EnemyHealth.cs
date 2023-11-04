@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class Health : MonoBehaviour
+public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] int currentHealth = 0;
-    int maxHealth = 1;
+    [SerializeField] int currentHealth = 3;
+    int maxHealth = 3;
     bool isDead = false;
+
     public void LoseLife(int damage)
     {
         currentHealth -= damage;
@@ -31,19 +31,5 @@ public class Health : MonoBehaviour
     void Die()
     {
         Destroy(this.gameObject);
-    }
-    private void Start()
-    {
-       
-        /* while (currentHealth < maxHealth)
-        {
-        currentHealth++;
-        }*/
-
-        //currentHealth = maxHealth;
-    }
-    private void Update()
-    {
-   
     }
 }
