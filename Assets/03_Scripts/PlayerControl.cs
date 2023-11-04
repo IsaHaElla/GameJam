@@ -17,9 +17,9 @@ public class PlayerControl : MonoBehaviour
     bool isGrounded;
 
     [Header("Shooting")]
-    public SpriteRenderer spriteRenderer;
+    //public SpriteRenderer spriteRenderer;
     public GameObject BulletPrefab;
-    private GameObject currentBullet;
+    private GameObject bulletOrigin;
 
 
     // Start is called before the first frame update
@@ -41,7 +41,7 @@ public class PlayerControl : MonoBehaviour
             *    currentBullet.GetComponentInChildren<BulletBehavior>().playerRotation = this.spriteRenderer;
             *}
             **/
-            Instantiate(BulletPrefab, new Vector3(transform.position.x, 1.6f, 0f), Quaternion.identity);
+            Instantiate(BulletPrefab, bulletOrigin.transform.position, Quaternion.identity);
         }
 
         if (isGrounded == true)
