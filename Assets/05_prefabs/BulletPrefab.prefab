@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDirection: {x: 0, y: 0}
-  speed: 0
+  speed: 5
   lifeTime: 8
   playerPosition: {fileID: 3086555934420892784}
   playerRotation: {fileID: 7413494729097428826}
