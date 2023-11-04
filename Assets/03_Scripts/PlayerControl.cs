@@ -20,7 +20,6 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         //physicsBody.AddForce(moveDirection*speed);
     }
      // Update is called once per frame
@@ -54,17 +53,27 @@ public class PlayerControl : MonoBehaviour
         if ( Input.GetKey(KeyCode.A))
         {
             moveVelocity = -speed;
-            if (spriteRenderer.flipX == false)
+            /*if (spriteRenderer.flipX == false)
             { 
                 spriteRenderer.flipX = true;
+            }*/
+
+            //Abdullahs code
+            if (transform.localScale.x > 0)
+            {
+                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             }
         }
         if (Input.GetKey(KeyCode.D))
         {
             moveVelocity = speed;
-            if (spriteRenderer.flipX)
+            /*if (spriteRenderer.flipX)
             {
                 spriteRenderer.flipX = false;
+            }*/
+            if (transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             }
         }
 
