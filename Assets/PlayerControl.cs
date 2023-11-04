@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
 
     public SpriteRenderer spriteRenderer;
 
+    public GameObject BulletPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +25,11 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Instantiate(BulletPrefab, transform.position, Quaternion.identity);
+        }
+
         if (isGrounded == true)
         {
             //jumping
