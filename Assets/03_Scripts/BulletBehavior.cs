@@ -18,13 +18,14 @@ public class BulletBehavior : MonoBehaviour
     {
         Initialized();
         StartCoroutine("DisableAfterLifetime");
+
         if (playerRotation.flipX == true)
         {
-            float posX = 0 - playerPosition.position.x;
+            float posX = 0 - playerPosition.position.x + speed;
             moveDirection = new Vector2(posX, 0);
         } else
         {
-            float posX = playerPosition.position.x;
+            float posX = playerPosition.position.x + speed;
             moveDirection = new Vector2(posX, 0);
         }
     }

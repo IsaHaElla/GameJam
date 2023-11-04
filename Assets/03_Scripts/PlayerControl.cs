@@ -16,24 +16,26 @@ public class PlayerControl : MonoBehaviour
 
     public GameObject BulletPrefab;
     private GameObject currentBullet;
+
     // Start is called before the first frame update
     void Start()
     {
-      
+
         //physicsBody.AddForce(moveDirection*speed);
     }
-
-    // Update is called once per frame
+     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            //ABDULLAHS COMMENT: set currentBullet to null when bullet hits an objects or if its lifetime is over
-            currentBullet = Instantiate(BulletPrefab, new Vector3(transform.position.x, 1.6f, transform.position.z), Quaternion.identity);
-            if (currentBullet)
-            {
-                currentBullet.GetComponentInChildren<BulletBehavior>().playerRotation = this.spriteRenderer;
-            }
+            /*ABDULLAHS COMMENT: set currentBullet to null when bullet hits an objects or if its lifetime is over
+            *currentBullet = Instantiate(BulletPrefab, new Vector3(transform.position.x, 1.6f, transform.position.z), Quaternion.identity);
+            *if (currentBullet)
+            *{
+            *    currentBullet.GetComponentInChildren<BulletBehavior>().playerRotation = this.spriteRenderer;
+            *}
+            **/
+            Instantiate(BulletPrefab, new Vector3(transform.position.x, 1.6f, 0f), Quaternion.identity);
         }
 
         if (isGrounded == true)
