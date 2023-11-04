@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     [SerializeField] int currentHealth = 1;
     int maxHealth = 1;
     bool isDead = false;
+
     public void LoseLife(int damage)
     {
         currentHealth -= damage;
@@ -18,6 +19,7 @@ public class Health : MonoBehaviour
     }
     void Die()
     {
+        GetComponentInChildren < Animator >().SetTrigger("Die");
         Destroy(this.gameObject);
     }
     private void Start()

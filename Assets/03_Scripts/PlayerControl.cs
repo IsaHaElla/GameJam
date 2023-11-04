@@ -6,21 +6,27 @@ public class PlayerControl : MonoBehaviour
 {
     Rigidbody physicsBody;
 
+    [Header("Animations")]
+    private Animator playerAnims;
+
+    [Header("Movement Settings")]
     [SerializeField] Vector3 moveDirection;
     [SerializeField] float speed;
     [SerializeField] float jump = 2f;
     float moveVelocity;
     bool isGrounded;
 
-    public SpriteRenderer spriteRenderer;
-
+    [Header("Shooting")]
+    //public SpriteRenderer spriteRenderer;
     public GameObject BulletPrefab;
-    private GameObject currentBullet;
+    [SerializeField] private GameObject bulletOrigin;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        physicsBody = GetComponent<Rigidbody>();
+        playerAnims = GetComponentInChildren<Animator>();
         //physicsBody.AddForce(moveDirection*speed);
     }
      // Update is called once per frame
@@ -35,7 +41,8 @@ public class PlayerControl : MonoBehaviour
             *    currentBullet.GetComponentInChildren<BulletBehavior>().playerRotation = this.spriteRenderer;
             *}
             **/
-            Instantiate(BulletPrefab, new Vector3(transform.position.x, 1.6f, 0f), Quaternion.identity);
+            ShootBullet();
+            playerAnims.SetTrigger("Shoot");
         }
 
         if (isGrounded == true)
@@ -44,7 +51,7 @@ public class PlayerControl : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("ItJumps!");
-                GetComponent<Rigidbody>().velocity = new Vector2(GetComponent<Rigidbody>().velocity.y, jump);
+                physicsBody.velocity = new Vector2(GetComponent<Rigidbody>().velocity.y, jump);
             }
         }
         //physicsBody.MovePosition(transform.position + moveDirection * Time.deltaTime * speed);
@@ -54,24 +61,44 @@ public class PlayerControl : MonoBehaviour
         if ( Input.GetKey(KeyCode.A))
         {
             moveVelocity = -speed;
-            if (spriteRenderer.flipX == false)
+            /*if (spriteRenderer.flipX == false)
             { 
                 spriteRenderer.flipX = true;
+            }*/
+
+            //Abdullahs code
+            if (transform.localScale.x > 0)
+            {
+                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             }
         }
         if (Input.GetKey(KeyCode.D))
         {
             moveVelocity = speed;
-            if (spriteRenderer.flipX)
+            /*if (spriteRenderer.flipX)
             {
                 spriteRenderer.flipX = false;
+            }*/
+            if (transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             }
         }
 
-        GetComponent<Rigidbody>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody>().velocity.y);
-        
+        physicsBody.velocity = new Vector2(moveVelocity, GetComponent<Rigidbody>().velocity.y);
+
+        //play animation
+        playerAnims.SetFloat("moveX", Mathf.Abs(physicsBody.velocity.x));
+        playerAnims.SetBool("IsGrounded", isGrounded);
         
     }
+
+    void ShootBullet()
+    {
+        GameObject newBullet = Instantiate(BulletPrefab, bulletOrigin.transform.position, Quaternion.identity);
+        newBullet.GetComponent<BulletBehavior>().player = transform.gameObject;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("OnCollisionEnter");
