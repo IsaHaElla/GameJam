@@ -6,20 +6,27 @@ public class PlayerControl : MonoBehaviour
 {
     Rigidbody physicsBody;
 
+    [Header("Animations")]
+    private Animator playerAnims;
+
+    [Header("Movement Settings")]
     [SerializeField] Vector3 moveDirection;
     [SerializeField] float speed;
     [SerializeField] float jump = 2f;
     float moveVelocity;
     bool isGrounded;
 
+    [Header("Shooting")]
     public SpriteRenderer spriteRenderer;
-
     public GameObject BulletPrefab;
     private GameObject currentBullet;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        physicsBody = GetComponent<Rigidbody>();
+        playerAnims = GetComponentInChildren<Animator>();
         //physicsBody.AddForce(moveDirection*speed);
     }
      // Update is called once per frame
@@ -43,7 +50,8 @@ public class PlayerControl : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("ItJumps!");
-                GetComponent<Rigidbody>().velocity = new Vector2(GetComponent<Rigidbody>().velocity.y, jump);
+                physicsBody.velocity = new Vector2(GetComponent<Rigidbody>().velocity.y, jump);
+                playerAnims.SetTrigger("Jump");
             }
         }
         //physicsBody.MovePosition(transform.position + moveDirection * Time.deltaTime * speed);
@@ -77,8 +85,11 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        GetComponent<Rigidbody>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody>().velocity.y);
-        
+        physicsBody.velocity = new Vector2(moveVelocity, GetComponent<Rigidbody>().velocity.y);
+
+        //play animation
+        playerAnims.SetFloat("moveX", Mathf.Abs(physicsBody.velocity.x));
+        playerAnims.SetBool("IsGrounded", isGrounded);
         
     }
     private void OnCollisionEnter(Collision collision)
