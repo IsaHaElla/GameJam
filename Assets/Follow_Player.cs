@@ -14,6 +14,7 @@ public class Follow_Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-     this.transform.position = new Vector3(followTransform.transform.position.x, followTransform.transform.position.y, this.transform.position.z);
+        float posY = 4;
+        this.transform.position = new Vector3(followTransform.transform.position.x, posY, this.transform.position.z);
     }
 }

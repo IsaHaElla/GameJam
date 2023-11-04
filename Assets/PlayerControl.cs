@@ -11,7 +11,9 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float jump = 2f;
     float moveVelocity;
     bool isGrounded;
-    
+
+    public SpriteRenderer spriteRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,10 +40,18 @@ public class PlayerControl : MonoBehaviour
         if ( Input.GetKey(KeyCode.A))
         {
             moveVelocity = -speed;
+            if (spriteRenderer.flipX == false)
+            { 
+                spriteRenderer.flipX = true;
+            }
         }
         if (Input.GetKey(KeyCode.D))
         {
             moveVelocity = speed;
+            if (spriteRenderer.flipX)
+            {
+                spriteRenderer.flipX = false;
+            }
         }
 
         GetComponent<Rigidbody>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody>().velocity.y);
