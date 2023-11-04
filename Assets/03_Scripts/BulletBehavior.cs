@@ -6,12 +6,11 @@ public class BulletBehavior : MonoBehaviour
 {
     Rigidbody physicsBody;
 
-    [SerializeField] Vector2 moveDirection;
+    [SerializeField] Vector3 moveDirection;
     [SerializeField] float speed;
     [SerializeField] float lifeTime = 8.0f;
 
-    public Transform playerPosition;
-    public SpriteRenderer playerRotation;
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -19,24 +18,23 @@ public class BulletBehavior : MonoBehaviour
         Initialized();
         StartCoroutine("DisableAfterLifetime");
 
-        if (playerRotation.flipX == true)
+        if (player.transform.localScale.x > 0)
         {
-            float posX = 0 - playerPosition.position.x + speed;
-            moveDirection = new Vector2(posX, 0);
-        } else
+            moveDirection = new Vector3(1, 0, 0);
+        }
+        if (player.transform.localScale.x < 0)
         {
-            float posX = playerPosition.position.x + speed;
-            moveDirection = new Vector2(posX, 0);
+            moveDirection = new Vector3(-1, 0, 0);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = moveDirection * speed * Time.deltaTime;
+        transform.position += moveDirection * speed * Time.deltaTime;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {

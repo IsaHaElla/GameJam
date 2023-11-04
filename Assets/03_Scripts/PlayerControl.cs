@@ -17,9 +17,9 @@ public class PlayerControl : MonoBehaviour
     bool isGrounded;
 
     [Header("Shooting")]
-    public SpriteRenderer spriteRenderer;
+    //public SpriteRenderer spriteRenderer;
     public GameObject BulletPrefab;
-    private GameObject currentBullet;
+    [SerializeField] private GameObject bulletOrigin;
 
 
     // Start is called before the first frame update
@@ -41,7 +41,8 @@ public class PlayerControl : MonoBehaviour
             *    currentBullet.GetComponentInChildren<BulletBehavior>().playerRotation = this.spriteRenderer;
             *}
             **/
-            Instantiate(BulletPrefab, new Vector3(transform.position.x, 1.6f, 0f), Quaternion.identity);
+            ShootBullet();
+            playerAnims.SetTrigger("Shoot");
         }
 
         if (isGrounded == true)
@@ -51,7 +52,6 @@ public class PlayerControl : MonoBehaviour
             {
                 Debug.Log("ItJumps!");
                 physicsBody.velocity = new Vector2(GetComponent<Rigidbody>().velocity.y, jump);
-                playerAnims.SetTrigger("Jump");
             }
         }
         //physicsBody.MovePosition(transform.position + moveDirection * Time.deltaTime * speed);
@@ -92,6 +92,13 @@ public class PlayerControl : MonoBehaviour
         playerAnims.SetBool("IsGrounded", isGrounded);
         
     }
+
+    void ShootBullet()
+    {
+        GameObject newBullet = Instantiate(BulletPrefab, bulletOrigin.transform.position, Quaternion.identity);
+        newBullet.GetComponent<BulletBehavior>().player = transform.gameObject;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("OnCollisionEnter");
