@@ -16,18 +16,7 @@ public class EnemyHealth : MonoBehaviour
             Die();
         }
     }
-    void AddLife(int healing)
-    {
-        if (!isDead)
-        {
-            currentHealth += healing;
-            if (currentHealth >= maxHealth)
-            {
-                currentHealth = maxHealth;
-            }
-        }
 
-    }
     void Die()
     {
         Destroy(this.gameObject);

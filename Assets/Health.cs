@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] int currentHealth = 0;
+    [SerializeField] int currentHealth = 1;
     int maxHealth = 1;
     bool isDead = false;
     public void LoseLife(int damage)
@@ -15,18 +15,6 @@ public class Health : MonoBehaviour
         {
             Die();
         }
-    }
-    void AddLife(int healing)
-    {
-        if (!isDead)
-        {
-            currentHealth += healing;
-            if (currentHealth >= maxHealth)
-            {
-                currentHealth = maxHealth;
-            }
-        }
-
     }
     void Die()
     {

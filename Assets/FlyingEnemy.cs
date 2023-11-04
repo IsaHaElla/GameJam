@@ -5,19 +5,26 @@ using UnityEngine;
 
 public class FlyingEnemy : MonoBehaviour
 {
-    public float mMovementSpeed;
-    private GameObject player;
-    // Start is called before the first frame update
-    void Start()
-    {
-        player= GameObject.FindGameObjectWithTag("Player");  
-    }
+    [SerializeField] float mMovementSpeed = 3.0f;
+    [SerializeField] private Vector3[] positions;
 
+    private int index;
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position = Vector2.MoveTowards(transform.position, positions[index], Time.deltaTime * mMovementSpeed);
+
+        if (transform.position == positions[index])
+        {
+            if (index == positions.Length - 1)
+            {
+                index = 0;
+            }
+            else
+            {
+                index++;
+            }
+
+        }
     }
-    private void Chase() 
-    { }
 }
