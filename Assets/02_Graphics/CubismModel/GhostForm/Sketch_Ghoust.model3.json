@@ -1,0 +1,18 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Sketch_Ghoust.moc3",
+		"Textures": [
+			"Sketch_Ghoust.2048/texture_00.png"
+		],
+		"Physics": "Sketch_Ghoust.physics3.json",
+		"DisplayInfo": "Sketch_Ghoust.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}
