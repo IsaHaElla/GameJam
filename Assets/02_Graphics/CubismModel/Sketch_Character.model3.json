@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Sketch_Character.moc3",
+		"Textures": [
+			"Sketch_Character.2048/texture_00.png"
+		],
+		"Physics": "Sketch_Character.physics3.json",
+		"DisplayInfo": "Sketch_Character.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}
