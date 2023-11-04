@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     public float offset;
     public float offsetSmoothing;
     private Vector3 playerPosition;
-    private float yOffset = 2; 
+    [SerializeField] private float yOffset = 2; 
 
 
     // Start is called before the first frame update
@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour
         playerPosition = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
 
         //if (player.transform.localScale.x > 0f)
-        if (player.GetComponent<SpriteRenderer>().flipX == false )
+        if (player.transform.localScale.x > 0)
         {
             playerPosition = new Vector3(playerPosition.x + offset, playerPosition.y + yOffset , playerPosition.z);
         }
