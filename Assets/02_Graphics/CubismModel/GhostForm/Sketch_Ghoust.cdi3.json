@@ -1,0 +1,22 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "Param",
+			"GroupId": "",
+			"Name": "up down"
+		},
+		{
+			"Id": "Param2",
+			"GroupId": "",
+			"Name": "hands"
+		},
+		{
+			"Id": "Param3",
+			"GroupId": "",
+			"Name": "head"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": []
+}
