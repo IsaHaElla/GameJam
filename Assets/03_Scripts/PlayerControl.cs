@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,10 +13,12 @@ public class PlayerControl : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] Vector3 moveDirection;
+    [SerializeField] float maxSpeed ;
     [SerializeField] float speed;
+    [SerializeField] float speedDecreaseSpiritForm;
     [SerializeField] float jump = 2f;
     float moveVelocity;
-    bool isGrounded;
+    [SerializeField] bool isGrounded;
 
     [Header("Spawnpoint and next Scene")]
     Vector3 lastSpawnPoint;
@@ -26,10 +29,22 @@ public class PlayerControl : MonoBehaviour
     public GameObject BulletPrefab;
     [SerializeField] private GameObject bulletOrigin;
 
+    [Header("Form Switch")]
+    [SerializeField] bool inSpiritForm;
+    [SerializeField] float spiritTime = 3f;
+    [SerializeField] float spiritCooldown = 5f;
+    [SerializeField] bool inCooldown;
+
+    [Header("Dreamdoor")]
+    [SerializeField] GameObject[] dreamdoors;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        inCooldown = false;
+        speed = maxSpeed;
+        inSpiritForm = false;
         physicsBody = GetComponent<Rigidbody>();
         playerAnims = GetComponentInChildren<Animator>();
         //physicsBody.AddForce(moveDirection*speed);
@@ -37,6 +52,11 @@ public class PlayerControl : MonoBehaviour
      // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (inCooldown == false) { switchForm(); }
+        }
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             /*ABDULLAHS COMMENT: set currentBullet to null when bullet hits an objects or if its lifetime is over
@@ -50,7 +70,7 @@ public class PlayerControl : MonoBehaviour
             playerAnims.SetTrigger("Shoot");
         }
 
-        if (isGrounded == true)
+        if (isGrounded == true && inSpiritForm == false)
         {
             //jumping
             if (Input.GetKeyDown(KeyCode.Space))
@@ -59,6 +79,7 @@ public class PlayerControl : MonoBehaviour
                 physicsBody.velocity = new Vector2(GetComponent<Rigidbody>().velocity.y, jump);
             }
         }
+
         //physicsBody.MovePosition(transform.position + moveDirection * Time.deltaTime * speed);
         moveVelocity = 0;
 
@@ -108,6 +129,11 @@ public class PlayerControl : MonoBehaviour
     {
         Debug.Log("OnCollisionEnter");
 
+        if (collision.gameObject.tag == "Dreamdoor" && inSpiritForm== false)
+        {
+            Debug.Log("Dreamdoor Collision");
+        }
+
         if (collision.gameObject.tag == "Ground")
         {
             isGrounded = true;
@@ -146,13 +172,53 @@ public class PlayerControl : MonoBehaviour
     }
     void OnCollisionExit(Collision collision)
     {
-        Debug.Log("OnCollisionExit");
-        isGrounded = false;
+        if (collision.gameObject.tag == "Ground")
+        {
+            Debug.Log("OnCollisionExit Ground");
+            isGrounded = false;
+        }
+    }
+
+    void switchForm()
+    {
+        if (inSpiritForm == false) 
+        { 
+            inSpiritForm = true;
+            speed -= speedDecreaseSpiritForm;
+            GetComponent<Health>().enabled = false;
+            for (int i = 0; i < dreamdoors.Length; i++)
+            {
+                dreamdoors[i].GetComponent<BoxCollider>().enabled = false;
+            }
+            StartCoroutine("spiritTimer");
+        } else {
+            inSpiritForm = false;
+            speed = maxSpeed;
+            GetComponent<Health>().enabled = true;
+            for (int i = 0; i < dreamdoors.Length; i++)
+            {
+                dreamdoors[i].GetComponent<BoxCollider>().enabled = true;
+            }
+            isGrounded = true;
+            inCooldown = true;
+            StartCoroutine("spiritTimerCooldown");
+        }
+        //Abdullah animation für spirit einfügen
     }
 
     void teleportToSpawnPoint()
     {
         this.transform.position = lastSpawnPoint;
     }
-    
+    IEnumerator spiritTimer()
+    {
+        yield return new WaitForSeconds(spiritTime);
+        switchForm();
+    }
+
+    IEnumerator spiritTimerCooldown()
+    {
+        yield return new WaitForSeconds(spiritCooldown);
+        inCooldown = false;
+    }
 }
