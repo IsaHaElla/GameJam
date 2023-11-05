@@ -9,6 +9,8 @@ public class Health : MonoBehaviour
     int maxHealth = 1;
     bool isDead = false;
 
+    [SerializeField] GameObject deathVFX;
+
     public void LoseLife(int damage)
     {
         currentHealth -= damage;
@@ -19,8 +21,11 @@ public class Health : MonoBehaviour
     }
     void Die()
     {
-        GetComponentInChildren < Animator >().SetTrigger("Die");
-        Destroy(this.gameObject);
+        GetComponentInChildren<Animator>().SetTrigger("Die");
+        GameObject newDeathVFX = Instantiate(deathVFX, transform.position, Quaternion.identity);
+        newDeathVFX.transform.SetParent(this.transform);
+        Destroy(newDeathVFX, 2);
+        Destroy(this.gameObject); //nicht gut zu destroyen, vor allem wenn man von nem checkpoint wieder lädt. Lieber disablen/enablen - Abdullah
     }
     private void Start()
     {
@@ -34,6 +39,5 @@ public class Health : MonoBehaviour
     }
     private void Update()
     {
-   
     }
 }
