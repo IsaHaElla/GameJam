@@ -13,11 +13,6 @@ public class Health : MonoBehaviour
     [SerializeField] GameObject respawnPoint;
     [SerializeField] Animator screenFader; //used to do black screen fade
 
-    private void Start()
-    {
-        respawnPoint = GameObject.Find("Spawnpoint");
-    }
-
     public void LoseLife(int damage)
     {
         currentHealth -= damage;
@@ -62,7 +57,7 @@ public class Health : MonoBehaviour
     IEnumerator RespawnPlayer()
     {
         yield return new WaitForSeconds(2f);
-        this.transform.position = respawnPoint.transform.position;
+        this.transform.position = GetComponent<PlayerControl>().lastSpawnPoint;
         EnablePlayerSettings();
         screenFader.SetTrigger("Unfade");
         GetComponentInChildren<Animator>().ResetTrigger("Die");

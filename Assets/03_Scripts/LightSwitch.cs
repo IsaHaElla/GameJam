@@ -16,6 +16,7 @@ public class LightSwitch : MonoBehaviour
         if (myLight)
         {
             myLight.enabled = false;
+            torchFire.SetActive(false);
         }
     }
 
