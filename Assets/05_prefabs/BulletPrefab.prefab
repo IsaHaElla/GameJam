@@ -19500,6 +19500,8 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   speed: 15
   lifeTime: 8
+  impactVFX: {fileID: 5667600565899632179, guid: 60dbe82877035d748be88274e1e73f8c,
+    type: 3}
   player: {fileID: 0}
 --- !u!54 &-7716041253367097665
 Rigidbody:
