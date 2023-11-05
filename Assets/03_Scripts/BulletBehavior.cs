@@ -46,7 +46,7 @@ public class BulletBehavior : MonoBehaviour
             enemy.LoseLife(1);
             Instantiate(impactVFX, collision.transform.position, impactVFX.transform.rotation);
         }
-        else if (collision.gameObject.tag == "Collidable")
+        else if (collision.gameObject.tag == "Collidable" || collision.gameObject.tag == "Ground")
         {
             Debug.Log("Collision with Object");
             Destroy(this.gameObject);
