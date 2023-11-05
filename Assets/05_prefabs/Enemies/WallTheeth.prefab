@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 4603464841522025261}
   - component: {fileID: 4603464841522025262}
   m_Layer: 0
-  m_Name: Theeth
+  m_Name: WallTheeth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
