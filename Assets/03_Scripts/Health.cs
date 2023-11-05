@@ -10,6 +10,12 @@ public class Health : MonoBehaviour
     bool isDead = false;
 
     [SerializeField] GameObject deathVFX;
+    [SerializeField] GameObject respawnPoint;
+
+    private void Start()
+    {
+        respawnPoint = GameObject.Find("Spawnpoint");
+    }
 
     public void LoseLife(int damage)
     {
@@ -49,4 +55,12 @@ public class Health : MonoBehaviour
             LoseLife(1);
         }
     }
+
+    IEnumerator RespawnPlayer()
+    {
+        yield return new WaitForSeconds(2);
+        this.transform.position = respawnPoint.transform.position;
+        EnablePlayerSettings();
+    }
+    
 }
