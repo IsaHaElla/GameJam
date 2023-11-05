@@ -9,6 +9,7 @@ TagManager:
   - DeathZone
   - SpawnPoint
   - WinZone
+  - ShowOnPause
   layers:
   - Default
   - TransparentFX

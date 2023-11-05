@@ -24,7 +24,7 @@ public class MenuControl : MonoBehaviour
     public void SetVolume(float volume)
     {
         AudioListener.volume = volume;
-        volumeTextValue.text  = volume.ToString("0.0");
+        volumeTextValue.text  = volume.ToString("0");
     }
     public void VolumeApply()
     {
@@ -34,7 +34,7 @@ public class MenuControl : MonoBehaviour
     public IEnumerator ConfirmationBox()
     {
         confirmationPrompt.SetActive(true);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         confirmationPrompt.SetActive(false);
     }
 }
