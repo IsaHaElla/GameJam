@@ -35,7 +35,6 @@ public class Health : MonoBehaviour
         Destroy(newDeathVFX, 2);
         DisablePlayerSettings();
         screenFader.SetTrigger("Fade");
-        screenFader.ResetTrigger("Unfade");
     }
 
     void DisablePlayerSettings()
@@ -62,10 +61,9 @@ public class Health : MonoBehaviour
 
     IEnumerator RespawnPlayer()
     {
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(2f);
         this.transform.position = respawnPoint.transform.position;
         EnablePlayerSettings();
-        screenFader.ResetTrigger("Fade");
         screenFader.SetTrigger("Unfade");
         GetComponentInChildren<Animator>().ResetTrigger("Die");
     }
