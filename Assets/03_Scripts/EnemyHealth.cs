@@ -9,7 +9,6 @@ public class EnemyHealth : MonoBehaviour
     bool isDead = false;
 
     [SerializeField] GameObject deathVFX;
-
     public void LoseLife(int damage)
     {
         currentHealth -= damage;
@@ -21,8 +20,7 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        GameObject newDeathEffect = Instantiate(deathVFX, transform.position, Quaternion.identity);
-        newDeathEffect.transform.SetParent(this.transform);
+        Instantiate(deathVFX, transform.position, deathVFX.transform.rotation);
         Destroy(this.gameObject);
     }
 }
