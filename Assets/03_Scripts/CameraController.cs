@@ -12,7 +12,9 @@ public class CameraController : MonoBehaviour
     public float offsetSmoothing;
     private Vector3 playerPosition;
     [SerializeField] private float yOffset = 2;
-
+    [SerializeField] private float fov;
+    public GameObject camTriggerZone;
+    private bool isInCamTriggerZone;
 
     private void Awake()
     {
@@ -23,7 +25,9 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
+        fov = playerCamera.GetComponent<Camera>().fieldOfView;
+        isInCamTriggerZone = false;
     }
 
 
@@ -31,7 +35,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-       
+       //CamZoneUpdate();
     }
 
     void FixedUpdate()
@@ -51,5 +55,27 @@ public class CameraController : MonoBehaviour
         playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, playerPosition, offsetSmoothing * Time.deltaTime);
 
 
+    }
+
+    public void SetFOVWide()
+    {
+        fov = 120f;
+    }
+
+    public void SetFOVClose()
+    {
+        fov = 90f;  
+    }
+
+    public void CamZoneUpdate()
+    {
+        if (isInCamTriggerZone == true)
+        {
+            SetFOVWide();
+        }
+        else
+        {
+            SetFOVClose();
+        }
     }
 }
