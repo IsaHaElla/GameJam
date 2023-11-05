@@ -8,14 +8,14 @@ public class EnemyControl : MonoBehaviour
     [SerializeField] float mMovementSpeed = 3.0f;
     public GameObject pointA;
     public GameObject pointB;
-    private Rigidbody2D rb;
+    private Rigidbody rb;
     private Transform currentPoint;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody>();
         currentPoint = pointB.transform;
     }
 
