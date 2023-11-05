@@ -9,6 +9,8 @@ public class BulletBehavior : MonoBehaviour
     [SerializeField] Vector3 moveDirection;
     [SerializeField] float speed;
     [SerializeField] float lifeTime = 8.0f;
+    [SerializeField] GameObject impactVFX;
+
 
     public GameObject player;
 
@@ -42,11 +44,13 @@ public class BulletBehavior : MonoBehaviour
             Destroy(this.gameObject);
             EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
             enemy.LoseLife(1);
+            Instantiate(impactVFX, collision.transform.position, impactVFX.transform.rotation);
         }
         else if (collision.gameObject.tag == "Collidable")
         {
             Debug.Log("Collision with Object");
             Destroy(this.gameObject);
+            Instantiate(impactVFX, collision.transform.position, impactVFX.transform.rotation);
         }
     }
     void Initialized()

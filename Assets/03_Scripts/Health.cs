@@ -25,14 +25,21 @@ public class Health : MonoBehaviour
         GameObject newDeathVFX = Instantiate(deathVFX, transform.position, Quaternion.identity);
         newDeathVFX.transform.SetParent(this.transform);
         Destroy(newDeathVFX, 2);
-        GetComponent<PlayerControl>().enabled = false;
-        StartCoroutine(DestroyPlayer());
+        DisablePlayerSettings();
     }
 
-    IEnumerator DestroyPlayer()
+    void DisablePlayerSettings()
     {
-        yield return new WaitForSeconds(2);
-        gameObject.SetActive(false);
+        GetComponent<PlayerControl>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Collider>().enabled = false;
+    }
+
+    void EnablePlayerSettings()
+    {
+        GetComponent<PlayerControl>().enabled = true;
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Collider>().enabled = true;
     }
 
     private void OnTriggerEnter(Collider other)
