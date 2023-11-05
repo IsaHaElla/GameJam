@@ -54,7 +54,7 @@ public class BulletBehavior : MonoBehaviour
         }
         if (collision.gameObject.tag == "Light")
         {
-            collision.GetComponent<LightSwitch>().EnableLight();
+            collision.GetComponent<LightSwitch>().ToggleLight();
         }
     }
     void Initialized()

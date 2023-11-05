@@ -13,17 +13,22 @@ public class LightSwitch : MonoBehaviour
 
     private void Start()
     {
-        EnableLight();
+        if (myLight)
+        {
+            myLight.enabled = isOn;
+        }
     }
 
-    public void EnableLight()
+    public void ToggleLight()
     {
         if (myLight) 
         {
             isOn = !isOn;
             myLight.enabled = isOn;
             torchFire.SetActive(isOn);
+            Destroy(Dreamdoor);
         }
+    
     }
 
     void DisableLights()
@@ -43,5 +48,5 @@ public class LightSwitch : MonoBehaviour
             myLight.enabled = !isOn;
             Destroy(Dreamdoor);
         }
-    }
+    } 
 }
