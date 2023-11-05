@@ -8,13 +8,15 @@ public class UIManager : MonoBehaviour
 {
     GameObject[] pauseObjects;
     public GameObject PauseMenu;
-    private bool isShowing=false;
+    private bool isShowing;
     // Start is called before the first frame update
     void Start()
     {
         Time.timeScale = 1;
         pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
         hidePaused();
+        PauseMenu = transform.Find("NameofObject").gameObject as GameObject;
+        PauseMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -22,8 +24,7 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-           isShowing = false;
-           PauseMenu.SetActive(isShowing);
+            TogglePauseMenu();
 
 
             if (Time.timeScale==1)
@@ -39,6 +40,10 @@ public class UIManager : MonoBehaviour
                 hidePaused();
             }
         }
+    }
+    void TogglePauseMenu()
+    {
+        PauseMenu.SetActive(!PauseMenu.activeSelf);
     }
     public void Reload()
     {
