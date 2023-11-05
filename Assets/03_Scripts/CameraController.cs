@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
     public float offsetSmoothing;
     private Vector3 playerPosition;
     [SerializeField] private float yOffset = 2;
-    [SerializeField] private float fov;
+    [SerializeField] private float camFOV;
     public GameObject camTriggerZone;
     private bool isInCamTriggerZone;
 
@@ -26,14 +26,14 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         
-        fov = playerCamera.GetComponent<Camera>().fieldOfView;
+        camFOV = playerCamera.GetComponent<Camera>().fieldOfView;
         isInCamTriggerZone = false;
     }
 
 
 
     // Update is called once per frame
-    private void Update()
+    private void LateUpdate()
     {
        //CamZoneUpdate();
     }
@@ -59,12 +59,12 @@ public class CameraController : MonoBehaviour
 
     public void SetFOVWide()
     {
-        fov = 120f;
+        camFOV = 120f;
     }
 
     public void SetFOVClose()
     {
-        fov = 90f;  
+        camFOV = 90f;  
     }
 
     public void CamZoneUpdate()
