@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class LightSwitch : MonoBehaviour
+public class LightSwitchOff : MonoBehaviour
 {
     public Light2D myLight;
-    public bool isOn = true;
+    public bool isOn = false;
     public GameObject Dreamdoor;
     private void Start()
     {
@@ -15,14 +14,14 @@ public class LightSwitch : MonoBehaviour
         {
             myLight.enabled = isOn;
         }
-       
+
     }
     public void TorchLight()
     {
-        if (myLight) 
+        if (myLight)
         {
-            isOn = !isOn;
-            myLight.enabled = isOn;
+            isOn = isOn;
+            myLight.enabled = !isOn;
         }
 
     }
