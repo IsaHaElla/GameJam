@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     }
     public void Reload()
     {
-        
+        SceneManager.LoadScene("Level1", LoadSceneMode.Additive);
     }
     public void pauseControl()
     {

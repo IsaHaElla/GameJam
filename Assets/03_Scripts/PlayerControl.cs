@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float jump = 2f;
     float moveVelocity;
     bool isGrounded;
+
+    [Header("Spawnpoint and next Scene")]
+    Vector3 lastSpawnPoint;
+    [SerializeField] string sceneToLoad;
 
     [Header("Shooting")]
     //public SpriteRenderer spriteRenderer;
@@ -102,7 +107,12 @@ public class PlayerControl : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("OnCollisionEnter");
-        isGrounded = true;
+
+        if (collision.gameObject.tag == "Ground")
+        {
+            isGrounded = true;
+        }
+
         if (collision.gameObject.tag == "Enemy")
         {
             Health health = collision.gameObject.GetComponent<Health>();
@@ -113,10 +123,36 @@ public class PlayerControl : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "DeathZone")
+        {
+            Debug.Log("DeathZone Collision");
+            teleportToSpawnPoint();
+        }
+
+        if (other.gameObject.tag == "SpawnPoint")
+        {
+            Debug.Log("SpawnPoint Collision");
+            lastSpawnPoint = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+        }
+
+        if (other.gameObject.tag == "WinZone")
+        {
+            Debug.Log("WinZone Collision");
+            SceneManager.LoadScene(sceneToLoad);
+        }
+    }
     void OnCollisionExit(Collision collision)
     {
         Debug.Log("OnCollisionExit");
         isGrounded = false;
+    }
+
+    void teleportToSpawnPoint()
+    {
+        this.transform.position = lastSpawnPoint;
     }
     
 }
