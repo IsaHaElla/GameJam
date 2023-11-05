@@ -10,13 +10,15 @@ Material:
   m_Name: DistortionMaterial
   m_Shader: {fileID: -6465566751694194690, guid: da94fd81d0236df4994b759f809f184d,
     type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _ALPHATEST_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -35,11 +37,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 1
+    - _Blend: 0
+    - _CastShadows: 1
     - _CloudBrightness: 2
     - _CloudPower: 1
+    - _Cull: 2
     - _DisplacementPower: 0.35
+    - _DstBlend: 0
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
     m_Colors:
     - _CloudColor: {r: 6.3837595, g: 0, b: 0, a: 1}
     - _CloudDistortion: {r: 1, g: 1, b: 0, a: 0}
