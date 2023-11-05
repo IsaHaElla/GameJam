@@ -5,19 +5,21 @@ using UnityEngine;
 public class LightSwitch : MonoBehaviour
 {
     [SerializeField] Light[] lights = new Light[2];
-
+    public GameObject lightSwitch;
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < lights.Length; i++)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            lights[i].enabled = true;
+            if (lightSwitch.activeInHierarchy == true)
+            {
+                lightSwitch.SetActive(false);
+            }
+            else
+            {
+                lightSwitch.SetActive(true);
+
+            }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
