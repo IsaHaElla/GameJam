@@ -40,6 +40,8 @@ public class BulletBehavior : MonoBehaviour
         {
             Debug.Log("Collision with Enemy");
             Destroy(this.gameObject);
+            EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
+            enemy.LoseLife(1);
         }
         else if (collision.gameObject.tag == "Collidable")
         {

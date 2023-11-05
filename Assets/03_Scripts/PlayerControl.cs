@@ -142,16 +142,6 @@ public class PlayerControl : MonoBehaviour
         {
             isGrounded = true;
         }
-
-        if (collision.gameObject.tag == "Enemy")
-        {
-            Health health = collision.gameObject.GetComponent<Health>();
-            if (health != null)
-            {
-                health.LoseLife(1);
-            }
-            Destroy(this.gameObject);
-        }
     }
 
     private void OnTriggerEnter(Collider other)

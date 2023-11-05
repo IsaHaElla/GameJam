@@ -25,19 +25,21 @@ public class Health : MonoBehaviour
         GameObject newDeathVFX = Instantiate(deathVFX, transform.position, Quaternion.identity);
         newDeathVFX.transform.SetParent(this.transform);
         Destroy(newDeathVFX, 2);
-        Destroy(this.gameObject); //nicht gut zu destroyen, vor allem wenn man von nem checkpoint wieder lädt. Lieber disablen/enablen - Abdullah
+        GetComponent<PlayerControl>().enabled = false;
+        StartCoroutine(DestroyPlayer());
     }
-    private void Start()
-    {
-       
-        /* while (currentHealth < maxHealth)
-        {
-        currentHealth++;
-        }*/
 
-        //currentHealth = maxHealth;
-    }
-    private void Update()
+    IEnumerator DestroyPlayer()
     {
+        yield return new WaitForSeconds(2);
+        gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            LoseLife(1);
+        }
     }
 }

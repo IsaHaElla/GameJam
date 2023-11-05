@@ -2776,6 +2776,12 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4154624571953029746, guid: 9a7e55fea550026499439e331f5254ec,
+        type: 3}
+      propertyPath: deathVFX
+      value: 
+      objectReference: {fileID: 5207138729327554456, guid: 8df79d7815d556e4a9b176c08eb48afb,
+        type: 3}
     - target: {fileID: 4154624571953029747, guid: 9a7e55fea550026499439e331f5254ec,
         type: 3}
       propertyPath: pointA
@@ -2888,6 +2894,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5230951, y: 2.670999, z: 1}
   m_Center: {x: -0.058121204, y: 0.2688129, z: 0}
+--- !u!65 &732788564
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711572896795395281}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5257702, y: 2.6162567, z: 1}
+  m_Center: {x: -0.06815529, y: 0.26288533, z: 0}
 --- !u!4 &1711572896795395293 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4154624571953029757, guid: 9a7e55fea550026499439e331f5254ec,
