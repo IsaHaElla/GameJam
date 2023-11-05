@@ -5,17 +5,25 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject player;
+
+    [SerializeField] private GameObject playerCamera;
+    [SerializeField] private GameObject playerCharacter;
     public float offset;
     public float offsetSmoothing;
     private Vector3 playerPosition;
-    [SerializeField] private float yOffset = 2; 
+    [SerializeField] private float yOffset = 2;
 
+
+    private void Awake()
+    {
+        playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        playerCharacter = GameObject.FindGameObjectWithTag("Player");
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
 
@@ -27,12 +35,11 @@ public class CameraController : MonoBehaviour
     }
 
     void FixedUpdate()
-    {
-        //playerPosition = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
-        playerPosition = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+    { 
+        playerPosition = new Vector3(playerCharacter.transform.position.x, playerCharacter.transform.position.y, playerCamera.transform.position.z);
 
-        //if (player.transform.localScale.x > 0f)
-        if (player.transform.localScale.x > 0)
+        
+        if (playerCharacter.transform.localScale.x > 0)
         {
             playerPosition = new Vector3(playerPosition.x + offset, playerPosition.y + yOffset , playerPosition.z);
         }
@@ -41,7 +48,7 @@ public class CameraController : MonoBehaviour
             playerPosition = new Vector3(playerPosition.x - offset, playerPosition.y + yOffset , playerPosition.z);
         }
 
-        transform.position = Vector3.Lerp(transform.position, playerPosition, offsetSmoothing * Time.deltaTime);
+        playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, playerPosition, offsetSmoothing * Time.deltaTime);
 
 
     }
