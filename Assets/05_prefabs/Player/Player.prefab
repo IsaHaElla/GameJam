@@ -4474,11 +4474,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDirection: {x: 0, y: 0, z: 0}
+  maxSpeed: 5
   speed: 5
+  speedDecreaseSpiritForm: 2
   jump: 10
+  isGrounded: 0
+  sceneToLoad: 
   BulletPrefab: {fileID: 659603513978227887, guid: 5a383da1d9b84b04aa6d8e3b9dd236ad,
     type: 3}
   bulletOrigin: {fileID: 7541123605634069199}
+  inSpiritForm: 0
+  spiritTime: 5
+  spiritCooldown: 5
+  switchAnimationTime: 1.7
+  inCooldown: 0
+  normalSprite: {fileID: 7541123605226038882}
+  spiritSprite: {fileID: 338284728}
+  switchVFX: {fileID: 3930742472121832084, guid: 76f91a05dca9f7d4ebbff1612ca5b155,
+    type: 3}
+  dreamdoors: []
 --- !u!54 &7541123604835600483
 Rigidbody:
   m_ObjectHideFlags: 0
