@@ -11,6 +11,7 @@ public class Health : MonoBehaviour
 
     [SerializeField] GameObject deathVFX;
     [SerializeField] GameObject respawnPoint;
+    [SerializeField] Animator screenFader; //used to do black screen fade
 
     private void Start()
     {
@@ -27,11 +28,14 @@ public class Health : MonoBehaviour
     }
     void Die()
     {
+        StartCoroutine(RespawnPlayer());
         GetComponentInChildren<Animator>().SetTrigger("Die");
         GameObject newDeathVFX = Instantiate(deathVFX, transform.position, Quaternion.identity);
         newDeathVFX.transform.SetParent(this.transform);
         Destroy(newDeathVFX, 2);
         DisablePlayerSettings();
+        screenFader.SetTrigger("Fade");
+        screenFader.ResetTrigger("Unfade");
     }
 
     void DisablePlayerSettings()
@@ -58,9 +62,12 @@ public class Health : MonoBehaviour
 
     IEnumerator RespawnPlayer()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.2f);
         this.transform.position = respawnPoint.transform.position;
         EnablePlayerSettings();
+        screenFader.ResetTrigger("Fade");
+        screenFader.SetTrigger("Unfade");
+        GetComponentInChildren<Animator>().ResetTrigger("Die");
     }
     
 }

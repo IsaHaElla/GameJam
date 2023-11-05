@@ -15,7 +15,7 @@ public class LightSwitch : MonoBehaviour
     {
         if (myLight)
         {
-            myLight.enabled = isOn;
+            myLight.enabled = false;
         }
     }
 
