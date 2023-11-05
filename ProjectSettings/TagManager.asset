@@ -13,6 +13,7 @@ TagManager:
   - Ground
   - Dreamdoor
   - Light
+  - Enemy
   layers:
   - Default
   - TransparentFX
