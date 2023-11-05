@@ -33,7 +33,11 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] bool inSpiritForm;
     [SerializeField] float spiritTime = 3f;
     [SerializeField] float spiritCooldown = 5f;
+    [SerializeField] float switchAnimationTime = 2f;
     [SerializeField] bool inCooldown;
+    [SerializeField] GameObject normalSprite;
+    [SerializeField] GameObject spiritSprite;
+    [SerializeField] GameObject switchVFX;
 
     [Header("Dreamdoor")]
     [SerializeField] GameObject[] dreamdoors;
@@ -183,15 +187,14 @@ public class PlayerControl : MonoBehaviour
     {
         if (inSpiritForm == false) 
         { 
-            inSpiritForm = true;
-            speed -= speedDecreaseSpiritForm;
-            GetComponent<Health>().enabled = false;
-            for (int i = 0; i < dreamdoors.Length; i++)
-            {
-                dreamdoors[i].GetComponent<BoxCollider>().enabled = false;
-            }
             StartCoroutine("spiritTimer");
-        } else {
+            StartCoroutine(ToggleFormTimer());
+            PlaySwitchVFX();
+            StartCoroutine(ResetForm());
+
+        } 
+        /*else 
+        {
             inSpiritForm = false;
             speed = maxSpeed;
             GetComponent<Health>().enabled = true;
@@ -202,8 +205,54 @@ public class PlayerControl : MonoBehaviour
             isGrounded = true;
             inCooldown = true;
             StartCoroutine("spiritTimerCooldown");
-        }
+            ReturnForm();
+        }*/
         //Abdullah animation für spirit einfügen
+    }
+
+    IEnumerator ToggleFormTimer()
+    {
+        inSpiritForm = true;
+        yield return new WaitForSeconds(switchAnimationTime);
+        normalSprite.SetActive(false);
+        spiritSprite.SetActive(true);
+        speed -= speedDecreaseSpiritForm;
+        GetComponent<Health>().enabled = false;
+        gameObject.layer = 7;
+        /*for (int i = 0; i < dreamdoors.Length; i++)
+        {
+            dreamdoors[i].GetComponent<BoxCollider>().enabled = false;
+        }*/
+    }
+
+    IEnumerator ResetForm()
+    {
+        yield return new WaitForSeconds(spiritTime);
+        inSpiritForm = false;
+        speed = maxSpeed;
+        GetComponent<Health>().enabled = true;
+        /*for (int i = 0; i < dreamdoors.Length; i++)
+        {
+            dreamdoors[i].GetComponent<BoxCollider>().enabled = true;
+        }*/
+        gameObject.layer = 0;
+        isGrounded = true;
+        inCooldown = true;
+        StartCoroutine("spiritTimerCooldown");
+        ReturnForm();
+    }
+
+    void ReturnForm()
+    {
+        normalSprite.SetActive(true);
+        spiritSprite.SetActive(false);
+    }
+
+    void PlaySwitchVFX()
+    {
+        GameObject newSwitchEffect = Instantiate(switchVFX, transform.position, Quaternion.identity);
+        newSwitchEffect.transform.SetParent(this.transform);
+        Destroy(newSwitchEffect, 3);
     }
 
     void teleportToSpawnPoint()
