@@ -21,7 +21,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] bool isGrounded;
 
     [Header("Spawnpoint and next Scene")]
-    Vector3 lastSpawnPoint;
+    public Vector3 lastSpawnPoint;
     [SerializeField] string sceneToLoad;
 
     [Header("Shooting")]
