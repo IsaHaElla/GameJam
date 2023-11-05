@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     GameObject[] pauseObjects;
+    public GameObject PauseMenu;
+    private bool isShowing=false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,10 +22,15 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(Time.timeScale==1)
+           isShowing = false;
+           PauseMenu.SetActive(isShowing);
+
+
+            if (Time.timeScale==1)
             {
                 Time.timeScale = 0;
                 showPaused();
+             
             }
             else if (Time.timeScale == 0)
             {
