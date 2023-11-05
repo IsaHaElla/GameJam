@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.UIElements;
 using UnityEngine;
 
@@ -13,8 +14,9 @@ public class CameraController : MonoBehaviour
     private Vector3 playerPosition;
     [SerializeField] private float yOffset = 2;
     [SerializeField] private float camFOV;
+    public float camFOVSmoothing;
     public GameObject camTriggerZone;
-    private bool isInCamTriggerZone;
+    //private bool isInCamTriggerZone;
 
     private void Awake()
     {
@@ -25,9 +27,10 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        camFOV = playerCamera.GetComponent<Camera>().fieldOfView = 95;
         
-        camFOV = playerCamera.GetComponent<Camera>().fieldOfView;
-        isInCamTriggerZone = false;
+        //isInCamTriggerZone = false;
     }
 
 
@@ -35,7 +38,14 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     private void LateUpdate()
     {
-       //CamZoneUpdate();
+        if (Input.GetKey(KeyCode.Q))
+        {
+            camFOV = camFOV = playerCamera.GetComponent<Camera>().fieldOfView = 120;
+        }
+        else
+        {
+            camFOV = camFOV = playerCamera.GetComponent<Camera>().fieldOfView = 95;
+        }
     }
 
     void FixedUpdate()
@@ -57,25 +67,25 @@ public class CameraController : MonoBehaviour
 
     }
 
-    public void SetFOVWide()
-    {
-        camFOV = 120f;
-    }
+    //////public void SetFOVWide()
+    //////{
+    //////    camFOV = 120f;
+    //////}
 
-    public void SetFOVClose()
-    {
-        camFOV = 90f;  
-    }
+    //public void SetFOVClose()
+    //{
+    //    camFOV = 90f;  
+    //}
 
-    public void CamZoneUpdate()
-    {
-        if (isInCamTriggerZone == true)
-        {
-            SetFOVWide();
-        }
-        else
-        {
-            SetFOVClose();
-        }
-    }
+    //public void CamZoneUpdate()
+    //{
+    //    if (isInCamTriggerZone == true)
+    //    {
+    //        SetFOVWide();
+    //    }
+    //    else
+    //    {
+    //        SetFOVClose();
+    //    }
+    //}
 }
