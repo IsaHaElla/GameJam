@@ -190,8 +190,6 @@ public class PlayerControl : MonoBehaviour
             StartCoroutine("spiritTimer");
             StartCoroutine(ToggleFormTimer());
             PlaySwitchVFX();
-            StartCoroutine(ResetForm());
-
         } 
         /*else 
         {
@@ -219,6 +217,7 @@ public class PlayerControl : MonoBehaviour
         speed -= speedDecreaseSpiritForm;
         GetComponent<Health>().enabled = false;
         gameObject.layer = 7;
+        StartCoroutine(ResetForm());
         /*for (int i = 0; i < dreamdoors.Length; i++)
         {
             dreamdoors[i].GetComponent<BoxCollider>().enabled = false;
