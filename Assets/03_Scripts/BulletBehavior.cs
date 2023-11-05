@@ -52,6 +52,10 @@ public class BulletBehavior : MonoBehaviour
             Destroy(this.gameObject);
             Instantiate(impactVFX, collision.transform.position, impactVFX.transform.rotation);
         }
+        if (collision.gameObject.tag == "Light")
+        {
+            collision.GetComponent<LightSwitch>().EnableLight();
+        }
     }
     void Initialized()
     {

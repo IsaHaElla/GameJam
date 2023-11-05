@@ -9,23 +9,33 @@ public class LightSwitch : MonoBehaviour
     public Light2D myLight;
     public bool isOn = true;
     public GameObject Dreamdoor;
+    public GameObject torchFire;
+
     private void Start()
     {
-        if (myLight)
-        {
-            myLight.enabled = isOn;
-        }
-       
+        EnableLight();
     }
-    public void TorchLight()
+
+    public void EnableLight()
     {
         if (myLight) 
         {
             isOn = !isOn;
             myLight.enabled = isOn;
+            torchFire.SetActive(isOn);
         }
-
     }
+
+    void DisableLights()
+    {
+        if (myLight)
+        {
+            isOn = false;
+            myLight.enabled = isOn;
+            torchFire.SetActive(isOn);
+        }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
