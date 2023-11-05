@@ -44,7 +44,7 @@ public class Health : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.tag == "Enemy" && gameObject.tag == "Player")
         {
             LoseLife(1);
         }

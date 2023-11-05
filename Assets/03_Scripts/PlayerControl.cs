@@ -205,7 +205,8 @@ public class PlayerControl : MonoBehaviour
         normalSprite.SetActive(false);
         spiritSprite.SetActive(true);
         speed -= speedDecreaseSpiritForm;
-        GetComponent<Health>().enabled = false;
+        gameObject.tag = "Spirit";
+        //GetComponent<Health>().enabled = false;
         gameObject.layer = 7;
         StartCoroutine(ResetForm());
         /*for (int i = 0; i < dreamdoors.Length; i++)
@@ -235,6 +236,7 @@ public class PlayerControl : MonoBehaviour
     {
         normalSprite.SetActive(true);
         spiritSprite.SetActive(false);
+        gameObject.tag = "Player";
     }
 
     void PlaySwitchVFX()
