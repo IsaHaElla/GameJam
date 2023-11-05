@@ -1,0 +1,10 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Fledermaus.moc3",
+		"Textures": [
+			"Fledermaus.2048/texture_00.png"
+		],
+		"DisplayInfo": "Fledermaus.cdi3.json"
+	}
+}

@@ -1,0 +1,32 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "Param",
+			"GroupId": "",
+			"Name": "Up Down"
+		},
+		{
+			"Id": "Param2",
+			"GroupId": "",
+			"Name": "Wing Front"
+		},
+		{
+			"Id": "Param5",
+			"GroupId": "",
+			"Name": "skiss"
+		},
+		{
+			"Id": "Param3",
+			"GroupId": "",
+			"Name": "Wing Back"
+		},
+		{
+			"Id": "Param4",
+			"GroupId": "",
+			"Name": "Highlight"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": []
+}
