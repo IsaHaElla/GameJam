@@ -28,6 +28,9 @@ public class PlayerControl : MonoBehaviour
     //public SpriteRenderer spriteRenderer;
     public GameObject BulletPrefab;
     [SerializeField] private GameObject bulletOrigin;
+    //[SerializeField] private bool isShooting;
+    [SerializeField] private bool inShootingCooldown;
+    [SerializeField] private float shootingCooldownTime = 1f;
 
     [Header("Form Switch")]
     [SerializeField] bool inSpiritForm;
@@ -125,8 +128,17 @@ public class PlayerControl : MonoBehaviour
 
     void ShootBullet()
     {
-        GameObject newBullet = Instantiate(BulletPrefab, bulletOrigin.transform.position, Quaternion.identity);
-        newBullet.GetComponent<BulletBehavior>().player = transform.gameObject;
+        if(inShootingCooldown == false) 
+        {
+            GameObject newBullet = Instantiate(BulletPrefab, bulletOrigin.transform.position, Quaternion.identity);
+            newBullet.GetComponent<BulletBehavior>().player = transform.gameObject;
+            inShootingCooldown = true;
+            StartCoroutine("shootingTimerCooldown");
+        }
+        
+        
+        
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -173,6 +185,16 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+
+
+    IEnumerator shootingTimerCooldown()
+    {
+        
+        yield return new WaitForSeconds(shootingCooldownTime);
+        inShootingCooldown = false;
+    }
+
+
     void switchForm()
     {
         if (inSpiritForm == false) 
@@ -197,6 +219,7 @@ public class PlayerControl : MonoBehaviour
         }*/
         //Abdullah animation für spirit einfügen
     }
+
 
     IEnumerator ToggleFormTimer()
     {
