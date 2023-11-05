@@ -100,6 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 3
+  deathVFX: {fileID: 5207138729327554456, guid: 8df79d7815d556e4a9b176c08eb48afb,
+    type: 3}
 --- !u!1 &6874866355207230060
 GameObject:
   m_ObjectHideFlags: 0
