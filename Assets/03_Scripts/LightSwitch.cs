@@ -1,25 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class LightSwitch : MonoBehaviour
 {
-    [SerializeField] Light[] lights = new Light[2];
-    public GameObject lightSwitch;
-    // Start is called before the first frame update
+    public Light2D myLight;
     void Start()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (lightSwitch.activeInHierarchy == true)
-            {
-                lightSwitch.SetActive(false);
-            }
-            else
-            {
-                lightSwitch.SetActive(true);
-
-            }
-        }
+        GameObject light2D = GameObject.FindWithTag("Light");
+        myLight = GetComponent<Light2D>();
+        myLight.enabled = false;
+    } 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+            myLight.enabled = !myLight.enabled;
     }
 }

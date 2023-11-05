@@ -12,6 +12,7 @@ TagManager:
   - ShowOnPause
   - Ground
   - Dreamdoor
+  - Light
   layers:
   - Default
   - TransparentFX
