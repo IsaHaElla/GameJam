@@ -1,56 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class EnemyControl : MonoBehaviour
 {
-    [SerializeField] float mMovementSpeed = 3.0f;
-    public GameObject pointA;
-    public GameObject pointB;
-    private Rigidbody rb;
-    private Transform currentPoint;
-
-
-    // Start is called before the first frame update
-    void Start()
+    public const float TOLERANCE = 0.5F;
+    
+    private Rigidbody _rigid;
+    private Transform _currentPoint;
+    
+    [SerializeField] private float movementSpeed = 3.0f;
+    [SerializeField] private GameObject pointA;
+    [SerializeField] private GameObject pointB;
+    
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        currentPoint = pointB.transform;
+        _rigid = GetComponent<Rigidbody>();
+        _currentPoint = pointB.transform;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Vector3 point = currentPoint.position - transform.position;
-        if (currentPoint == pointB.transform)
-        {
-            rb.velocity = new Vector2(mMovementSpeed, 0);
-        }
-        else
-        {
-            rb.velocity = new Vector2(-mMovementSpeed, 0);
-        }
-        if(Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform)
-        {
-            currentPoint = pointA.transform;
-        }
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform)
-        {
-            currentPoint = pointB.transform;
-        }  
+        HandleEnemyMovement();
+        HandlePointFlip();
     }
-    private void flip()
+
+    private void HandleEnemyMovement()
     {
-        Vector3 localScale = transform.localScale;
-        localScale.x *= -1;
+        var direction = _currentPoint == pointB.transform ? +1 : -1;
+        _rigid.velocity = new Vector2(movementSpeed * direction, 0);
     }
+
+    private void HandlePointFlip()
+    {
+        var distance = Vector2.Distance(transform.position, _currentPoint.position);
+        var closeEnough = distance < TOLERANCE;
+        var isPointA = _currentPoint == pointA.transform;
+        
+        if (closeEnough && !isPointA)
+            _currentPoint = pointA.transform;
+        if (closeEnough && isPointA) 
+            _currentPoint = pointB.transform;
+    }
+    
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(pointA.transform.position, 0.5f);
-        Gizmos.DrawWireSphere(pointB.transform.position, 0.5f);
-        Gizmos.DrawLine(pointA.transform.position, pointB.transform.position);
+        var posPointA = pointA.transform.position;
+        var posPointB = pointB.transform.position;
+        
+        Gizmos.DrawWireSphere(posPointA, 0.5f);
+        Gizmos.DrawWireSphere(posPointB, 0.5f);
+        Gizmos.DrawLine(posPointA, posPointB);
     }
-
 }
 
