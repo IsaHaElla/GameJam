@@ -1,285 +1,232 @@
 using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
-    Rigidbody physicsBody;
+    private static readonly int Shoot = Animator.StringToHash("Shoot");
+    private static readonly int MoveX = Animator.StringToHash("moveX");
+    private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
 
-    [Header("Animations")]
-    private Animator playerAnims;
+    private Animator _animator;
+    private Rigidbody _rigid;
+    private Health _health;
+    private SpriteRenderer _sprite;
 
-    [Header("Movement Settings")]
-    [SerializeField] Vector3 moveDirection;
-    [SerializeField] float maxSpeed ;
-    [SerializeField] float speed;
-    [SerializeField] float speedDecreaseSpiritForm;
-    [SerializeField] float jump = 2f;
-    float moveVelocity;
-    [SerializeField] bool isGrounded;
-
-    [Header("Spawnpoint and next Scene")]
-    public Vector3 lastSpawnPoint;
-    [SerializeField] string sceneToLoad;
-
-    [Header("Shooting")]
-    //public SpriteRenderer spriteRenderer;
-    public GameObject BulletPrefab;
+    [SerializeField] private float maxSpeed ;
+    [SerializeField] private float speed;
+    [SerializeField] private float speedDecreaseSpiritForm;
+    [SerializeField] private float jump = 2f;
+    [SerializeField] private bool isGrounded;
+    [SerializeField] private Vector3 lastSpawnPoint;
+    [SerializeField] private string sceneToLoad;
+    [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject bulletOrigin;
-    //[SerializeField] private bool isShooting;
     [SerializeField] private bool inShootingCooldown;
     [SerializeField] private float shootingCooldownTime = 1f;
+    [SerializeField] private bool inSpiritForm;
+    [SerializeField] private float spiritTime = 3f;
+    [SerializeField] private float spiritCooldown = 5f;
+    [SerializeField] private float switchAnimationTime = 2f;
+    [SerializeField] private bool inCooldown;
+    [SerializeField] private GameObject normalSprite;
+    [SerializeField] private GameObject spiritSprite;
+    [SerializeField] private GameObject switchVFX;
 
-    [Header("Form Switch")]
-    [SerializeField] bool inSpiritForm;
-    [SerializeField] float spiritTime = 3f;
-    [SerializeField] float spiritCooldown = 5f;
-    [SerializeField] float switchAnimationTime = 2f;
-    [SerializeField] bool inCooldown;
-    [SerializeField] GameObject normalSprite;
-    [SerializeField] GameObject spiritSprite;
-    [SerializeField] GameObject switchVFX;
-
-    [Header("Dreamdoor")]
-    [SerializeField] GameObject[] dreamdoors;
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        _rigid = GetComponent<Rigidbody>();
+        _health = GetComponent<Health>();
+        _animator = GetComponentInChildren<Animator>();
+        _sprite = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        inSpiritForm = false;
         inCooldown = false;
         speed = maxSpeed;
-        inSpiritForm = false;
-        physicsBody = GetComponent<Rigidbody>();
-        playerAnims = GetComponentInChildren<Animator>();
-        //physicsBody.AddForce(moveDirection*speed);
     }
-     // Update is called once per frame
-    void Update()
+    
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (inCooldown == false) { switchForm(); }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            /*ABDULLAHS COMMENT: set currentBullet to null when bullet hits an objects or if its lifetime is over
-            *currentBullet = Instantiate(BulletPrefab, new Vector3(transform.position.x, 1.6f, transform.position.z), Quaternion.identity);
-            *if (currentBullet)
-            *{
-            *    currentBullet.GetComponentInChildren<BulletBehavior>().playerRotation = this.spriteRenderer;
-            *}
-            **/
-            ShootBullet();
-            playerAnims.SetTrigger("Shoot");
-        }
-
-        if (isGrounded == true && inSpiritForm == false)
-        {
-            //jumping
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Debug.Log("ItJumps!");
-                physicsBody.velocity = new Vector2(GetComponent<Rigidbody>().velocity.y, jump);
-            }
-        }
-
-        //physicsBody.MovePosition(transform.position + moveDirection * Time.deltaTime * speed);
-        moveVelocity = 0;
-
-        //Left Right Movement
-        if ( Input.GetKey(KeyCode.A))
-        {
-            moveVelocity = -speed;
-            /*if (spriteRenderer.flipX == false)
-            { 
-                spriteRenderer.flipX = true;
-            }*/
-
-            //Abdullahs code
-            if (transform.localScale.x > 0)
-            {
-                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-            }
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            moveVelocity = speed;
-            /*if (spriteRenderer.flipX)
-            {
-                spriteRenderer.flipX = false;
-            }*/
-            if (transform.localScale.x < 0)
-            {
-                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-            }
-        }
-
-        physicsBody.velocity = new Vector2(moveVelocity, GetComponent<Rigidbody>().velocity.y);
-
-        //play animation
-        playerAnims.SetFloat("moveX", Mathf.Abs(physicsBody.velocity.x));
-        playerAnims.SetBool("IsGrounded", isGrounded);
-        
+        HandleFormSwitch();
+        HandleShoot();
+        HandleXMovement();
+        HandleYMovement();
+        HandleAnimations();
     }
 
-    void ShootBullet()
+    private void HandleAnimations()
     {
-        if(inShootingCooldown == false) 
-        {
-            GameObject newBullet = Instantiate(BulletPrefab, bulletOrigin.transform.position, Quaternion.identity);
-            newBullet.GetComponent<BulletBehavior>().player = transform.gameObject;
-            inShootingCooldown = true;
-            StartCoroutine("shootingTimerCooldown");
-        }
+        _animator.SetFloat(MoveX, Mathf.Abs(_rigid.velocity.x));
+        _animator.SetBool(IsGrounded, isGrounded);
+    }
+
+    private void HandleXMovement()
+    {
+        var direction = GetDirection();
+        HandleCharacterSpeed(direction);
+        HandleSpriteFlip(direction);
+    }
+
+    private void HandleCharacterSpeed(int direction)
+    {
+        var horizontalSpeed = speed * direction;
+        _rigid.velocity = new Vector2(horizontalSpeed, _rigid.velocity.y);
+    }
+
+    private static int GetDirection()
+    {
+        var direction = 0;
+        if (Input.GetKey(KeyCode.A)) direction += 1;
+        if (Input.GetKey(KeyCode.D)) direction -= 1;
+        return direction;
+    }
+
+    private void HandleSpriteFlip(int direction)
+    {
+        if (direction > 0 && _sprite.flipX)
+            _sprite.flipX = false;
+        if (direction < 0 && !_sprite.flipX)
+            _sprite.flipX = true;
+    }
+
+    private void HandleYMovement()
+    {
+        if (!isGrounded) return;
+        if (inSpiritForm) return;
+        if (!Input.GetKeyDown(KeyCode.Space)) return;
+
+        var velocity = new Vector2(_rigid.velocity.x, jump);
+        _rigid.velocity = velocity;
+    }
+
+    private void HandleShoot()
+    {
+        if (!Input.GetKeyDown(KeyCode.Mouse0)) return;
+        if (inShootingCooldown) return;
+
+        var posBullet = bulletOrigin.transform.position;
+        var newBullet = Instantiate(bulletPrefab, posBullet, Quaternion.identity);
+        newBullet.GetComponent<BulletBehavior>().player = transform.gameObject;
         
-        
-        
-        
+        inShootingCooldown = true;
+        _animator.SetTrigger(Shoot);
+        StartCoroutine(nameof(ShootingTimerCooldown));
+    }
+
+    private void HandleFormSwitch()
+    {
+        if (!Input.GetKeyDown(KeyCode.E)) return;
+        if (inCooldown) return;
+        if (inSpiritForm) return;
+
+        SwitchForm();
+    }
+
+    private void SwitchForm()
+    {
+        StartCoroutine(nameof(SpiritTimer));
+        StartCoroutine(ToggleFormTimer());
+        PlaySwitchVFX();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("OnCollisionEnter");
-
-        if (collision.gameObject.tag == "Dreamdoor" && inSpiritForm== false)
-        {
-            Debug.Log("Dreamdoor Collision");
-        }
-
-        if (collision.gameObject.tag == "Ground")
-        {
+        if (collision.gameObject.CompareTag("Ground")) 
             isGrounded = true;
-        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "DeathZone")
+        if (other.gameObject.CompareTag("DeathZone"))
+            TeleportToSpawnPoint();
+
+        if (other.gameObject.CompareTag("SpawnPoint"))
         {
-            Debug.Log("DeathZone Collision");
-            teleportToSpawnPoint();
+            var position = transform.position;
+            lastSpawnPoint = new Vector3(position.x, position.y, position.z);
         }
 
-        if (other.gameObject.tag == "SpawnPoint")
-        {
-            Debug.Log("SpawnPoint Collision");
-            lastSpawnPoint = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
-        }
-
-        if (other.gameObject.tag == "WinZone")
-        {
-            Debug.Log("WinZone Collision");
+        if (other.gameObject.CompareTag("WinZone"))
             SceneManager.LoadScene(sceneToLoad);
-        }
     }
-    void OnCollisionExit(Collision collision)
+    private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground")
-        {
-            Debug.Log("OnCollisionExit Ground");
-            isGrounded = false;
-        }
+        if (!collision.gameObject.CompareTag("Ground")) 
+            return;
+        
+        isGrounded = false;
     }
-
-
-
-    IEnumerator shootingTimerCooldown()
+    
+    private IEnumerator ShootingTimerCooldown()
     {
         
         yield return new WaitForSeconds(shootingCooldownTime);
         inShootingCooldown = false;
     }
 
-
-    void switchForm()
-    {
-        if (inSpiritForm == false) 
-        { 
-            StartCoroutine("spiritTimer");
-            StartCoroutine(ToggleFormTimer());
-            PlaySwitchVFX();
-        } 
-        /*else 
-        {
-            inSpiritForm = false;
-            speed = maxSpeed;
-            GetComponent<Health>().enabled = true;
-            for (int i = 0; i < dreamdoors.Length; i++)
-            {
-                dreamdoors[i].GetComponent<BoxCollider>().enabled = true;
-            }
-            isGrounded = true;
-            inCooldown = true;
-            StartCoroutine("spiritTimerCooldown");
-            ReturnForm();
-        }*/
-        //Abdullah animation für spirit einfügen
-    }
-
-
-    IEnumerator ToggleFormTimer()
+    private IEnumerator ToggleFormTimer()
     {
         inSpiritForm = true;
+        
         yield return new WaitForSeconds(switchAnimationTime);
+        
         normalSprite.SetActive(false);
         spiritSprite.SetActive(true);
+        
         speed -= speedDecreaseSpiritForm;
-        gameObject.tag = "Spirit";
-        //GetComponent<Health>().enabled = false;
-        gameObject.layer = 7;
+        
+        var go = gameObject;
+        go.tag = "Spirit";
+        go.layer = 7;
+        
         StartCoroutine(ResetForm());
-        /*for (int i = 0; i < dreamdoors.Length; i++)
-        {
-            dreamdoors[i].GetComponent<BoxCollider>().enabled = false;
-        }*/
     }
 
-    IEnumerator ResetForm()
+    private IEnumerator ResetForm()
     {
         yield return new WaitForSeconds(spiritTime);
+        
         inSpiritForm = false;
         speed = maxSpeed;
-        GetComponent<Health>().enabled = true;
-        /*for (int i = 0; i < dreamdoors.Length; i++)
-        {
-            dreamdoors[i].GetComponent<BoxCollider>().enabled = true;
-        }*/
+        
+        _health.enabled = true;
         gameObject.layer = 0;
         isGrounded = true;
         inCooldown = true;
-        StartCoroutine("spiritTimerCooldown");
+        
+        StartCoroutine(nameof(SpiritTimerCooldown));
         ReturnForm();
     }
 
-    void ReturnForm()
+    private void ReturnForm()
     {
         normalSprite.SetActive(true);
         spiritSprite.SetActive(false);
         gameObject.tag = "Player";
     }
 
-    void PlaySwitchVFX()
+    private void PlaySwitchVFX()
     {
-        GameObject newSwitchEffect = Instantiate(switchVFX, transform.position, Quaternion.identity);
-        newSwitchEffect.transform.SetParent(this.transform);
+        var newSwitchEffect = Instantiate(switchVFX, transform.position, Quaternion.identity);
+        newSwitchEffect.transform.SetParent(transform);
         Destroy(newSwitchEffect, 3);
     }
 
-    void teleportToSpawnPoint()
+    private void TeleportToSpawnPoint()
     {
-        this.transform.position = lastSpawnPoint;
-    }
-    IEnumerator spiritTimer()
-    {
-        yield return new WaitForSeconds(spiritTime);
-        switchForm();
+        transform.position = lastSpawnPoint;
     }
 
-    IEnumerator spiritTimerCooldown()
+    private IEnumerator SpiritTimer()
+    {
+        yield return new WaitForSeconds(spiritTime);
+        SwitchForm();
+    }
+
+    private IEnumerator SpiritTimerCooldown()
     {
         yield return new WaitForSeconds(spiritCooldown);
         inCooldown = false;
