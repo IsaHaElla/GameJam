@@ -18,7 +18,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float speedDecreaseSpiritForm;
     [SerializeField] private float jump = 2f;
     [SerializeField] private bool isGrounded;
-    [SerializeField] private Vector3 lastSpawnPoint;
+    [SerializeField] public Vector3 lastSpawnPoint;
     [SerializeField] private string sceneToLoad;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject bulletOrigin;
@@ -39,15 +39,11 @@ public class PlayerControl : MonoBehaviour
         _health = GetComponent<Health>();
         _animator = GetComponentInChildren<Animator>();
         _sprite = GetComponent<SpriteRenderer>();
-    }
-
-    private void Start()
-    {
         inSpiritForm = false;
         inCooldown = false;
         speed = maxSpeed;
     }
-    
+
     private void Update()
     {
         HandleFormSwitch();

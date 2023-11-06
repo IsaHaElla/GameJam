@@ -1,66 +1,76 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] int currentHealth = 1;
-    int maxHealth = 1;
-    bool isDead = false;
+    private static readonly int Die = Animator.StringToHash("Die");
+    private static readonly int Fade = Animator.StringToHash("Fade");
+    private static readonly int Unfade = Animator.StringToHash("Unfade");
+    
+    private Animator _animator;
+    private PlayerControl _playerControl;
+    private Rigidbody _rigidbody;
+    private Collider _collider;
 
-    [SerializeField] GameObject deathVFX;
-    [SerializeField] GameObject respawnPoint;
-    [SerializeField] Animator screenFader; //used to do black screen fade
+    [SerializeField] private int currentHealth = 1;
+    [SerializeField] private GameObject deathVFX;
+    [SerializeField] private Animator screenFader;
+    
+    private void Awake()
+    {
+        _animator = GetComponentInChildren<Animator>();
+        _playerControl = GetComponent<PlayerControl>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
+    }
 
     public void LoseLife(int damage)
     {
         currentHealth -= damage;
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+        if (currentHealth <= 0) 
+            SetPlayerDead();
     }
-    void Die()
+
+    private void SetPlayerDead()
     {
         StartCoroutine(RespawnPlayer());
-        GetComponentInChildren<Animator>().SetTrigger("Die");
-        GameObject newDeathVFX = Instantiate(deathVFX, transform.position, Quaternion.identity);
-        newDeathVFX.transform.SetParent(this.transform);
+        _animator.SetTrigger(Die);
+        var newDeathVFX = Instantiate(deathVFX, transform.position, Quaternion.identity);
+        newDeathVFX.transform.SetParent(transform);
         Destroy(newDeathVFX, 2);
         DisablePlayerSettings();
-        screenFader.SetTrigger("Fade");
+        screenFader.SetTrigger(Fade);
     }
 
-    void DisablePlayerSettings()
+    private void DisablePlayerSettings()
     {
-        GetComponent<PlayerControl>().enabled = false;
-        GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<Collider>().enabled = false;
+        _playerControl.enabled = false;
+        _rigidbody.isKinematic = true;
+        _collider.enabled = false;
     }
 
-    void EnablePlayerSettings()
+    private void EnablePlayerSettings()
     {
-        GetComponent<PlayerControl>().enabled = true;
-        GetComponent<Rigidbody>().isKinematic = false;
-        GetComponent<Collider>().enabled = true;
+        _playerControl.enabled = true;
+        _rigidbody.isKinematic = false;
+        _collider.enabled = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy" && gameObject.tag == "Player")
-        {
-            LoseLife(1);
-        }
+        if (!other.CompareTag("Enemy")) return;
+        if (!gameObject.CompareTag("Player")) return;
+        
+        LoseLife(1);
     }
 
-    IEnumerator RespawnPlayer()
+    private IEnumerator RespawnPlayer()
     {
         yield return new WaitForSeconds(2f);
-        this.transform.position = GetComponent<PlayerControl>().lastSpawnPoint;
+        transform.position = _playerControl.lastSpawnPoint;
         EnablePlayerSettings();
-        screenFader.SetTrigger("Unfade");
-        GetComponentInChildren<Animator>().ResetTrigger("Die");
+        screenFader.SetTrigger(Unfade);
+        _animator.ResetTrigger(Die);
     }
     
 }
